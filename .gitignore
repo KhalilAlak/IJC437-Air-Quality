@@ -1,0 +1,17 @@
+# R
+.Rhistory
+.RData
+.Rproj.user
+
+# Secrets
+.Renviron
+
+# Raw data (too large / reproducible)
+data/raw/
+
+# Outputs (can be regenerated)
+outputs/
+
+# Mac
+.DS_Store
+
