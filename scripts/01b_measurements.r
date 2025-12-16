@@ -2,7 +2,7 @@
 # 01b_measurements.R
 # Purpose:
 #  - Load sensors selected in 01_data_collection.R
-#  - Fetch DAILY PM2.5 (days) from OpenAQ v3 for a small set of sensors
+#  - Fetch DAILY PM2.5 (days) from OpenAQ v3
 #  - Save raw measurement table to data/raw/
 # ==========================================
 
@@ -22,8 +22,8 @@ if (api_key == "") {
   stop("OPENAQ_API_KEY is not set. Add it to ~/.Renviron, restart R, then re-run.")
 }
 
-# ---------- Controls (edit later if you want bigger) ----------
-sensors_per_city <- 3       # start small (avoid rate limits)
+# ---------- Controls ----------
+sensors_per_city <- 20       # Firs I used 3 sensors there was lots of missing data
 sleep_between_calls_sec <- 0.6
 max_retries_429 <- 6
 base_backoff_sec <- 2
@@ -122,7 +122,7 @@ fetch_days_all_pages <- function(sensor_id) {
 }
 
 # ==========================================
-# 1) Load sensors and select small sample per city
+# 1) Loading sensors and select small sample per city
 # ==========================================
 sensors <- read_csv("data/raw/pm25_sensors_raw.csv", show_col_types = FALSE) %>%
   clean_names()

@@ -28,7 +28,7 @@ library(lubridate)
 library(janitor)
 library(broom)
 
-# Install-if-missing (safe)
+# Install-if-missing
 pkg_needed <- c("rstatix", "FSA", "Kendall", "lmtest")
 to_install <- pkg_needed[!pkg_needed %in% installed.packages()[, "Package"]]
 if (length(to_install) > 0) install.packages(to_install)
@@ -88,13 +88,10 @@ shapiro_tbl <- daily_for_shapiro %>%
   )
 
 # Levene test (variance homogeneity)
-# NOTE: rstatix output can have df/df2 names that conflict with base R functions
 lev_raw <- pm25_daily_valid %>%
   levene_test(value ~ city) %>%
   as_tibble()
 
-# Robust column picking (works even if columns are df, df1, df2 etc.)
-# Usually: statistic, df, df2, p
 levene_tbl <- tibble(
   levene_f   = lev_raw[["statistic"]],
   levene_df1 = lev_raw[[ if ("df"  %in% names(lev_raw)) "df"  else if ("df1" %in% names(lev_raw)) "df1" else NA_character_ ]],
@@ -205,5 +202,6 @@ pred_city <- pred_grid %>%
 
 write_csv(pred_city, "outputs/stats/regression_monthly_predictions_city.csv")
 
-message("\nDONE ✅ Statistical analysis tables saved to outputs/stats/")
+message("\nDONE Statistical analysis tables saved to outputs/stats/")
+
 

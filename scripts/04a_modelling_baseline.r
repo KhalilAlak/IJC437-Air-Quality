@@ -66,8 +66,6 @@ pm25_feat <- pm25 %>%
   ) %>%
   ungroup()
 
-# slider is used above; install if missing
-if (!"slider" %in% installed.packages()[, "Package"]) install.packages("slider")
 
 # Remove rows where lag/rolling features are missing (start of each series)
 pm25_feat <- pm25_feat %>%
@@ -141,7 +139,7 @@ metrics_all <- bind_rows(metrics_train, metrics_test) %>%
 readr::write_csv(metrics_all, "outputs/models/baseline_metrics.csv")
 print(metrics_all)
 
-# Save coefficients (mainly for report)
+# Save coefficients
 coef_tbl <- bind_rows(
   broom::tidy(m_a) %>% mutate(model = "A_baseline_time_only"),
   broom::tidy(m_b) %>% mutate(model = "B_baseline_plus_lag_roll")
@@ -166,9 +164,9 @@ test_preds <- test %>%
 readr::write_csv(test_preds, "outputs/models/predictions_test.csv")
 
 # ==========================================
-# 6) Visuals (portfolio-friendly)
+# 6) Visuals
 # ==========================================
-# Aggregate by city-day to make plots readable (you have multiple sensors)
+# Aggregate by city-day to make plots readable
 test_city_daily <- test_preds %>%
   group_by(city, date) %>%
   summarise(
@@ -179,9 +177,9 @@ test_city_daily <- test_preds %>%
   )
 
 p_pred <- ggplot(test_city_daily, aes(x = date)) +
-  geom_line(aes(y = actual), linewidth = 0.8) +
-  geom_line(aes(y = pred_a, linetype = "Model A"), linewidth = 0.7, na.rm = TRUE) +
-  geom_line(aes(y = pred_b, linetype = "Model B"), linewidth = 0.7, na.rm = TRUE) +
+  geom_line(aes(y = actual), linewidth = 0.7) +
+  geom_line(aes(y = pred_a, linetype = "Model A"), linewidth = 0.4, col = "blue", na.rm = TRUE) +
+  geom_line(aes(y = pred_b, linetype = "Model B"), linewidth = 0.4, col = "red", na.rm = TRUE) +
   facet_wrap(~city, scales = "free_y") +
   labs(
     title = "Test set: Actual vs predicted PM2.5 (city-level daily mean)",
@@ -201,7 +199,7 @@ test_city_resid <- test_preds %>%
 
 p_res_time <- ggplot(test_city_resid, aes(x = date, y = resid_b)) +
   geom_hline(yintercept = 0, linewidth = 0.4) +
-  geom_line(linewidth = 0.7) +
+  geom_line(linewidth = 0.6) +
   facet_wrap(~city, scales = "free_y") +
   labs(
     title = "Residuals over time (Model B)",
@@ -225,4 +223,6 @@ p_res_hist <- test_preds %>%
 
 ggsave("outputs/figures/residuals_hist.png", p_res_hist, width = 10, height = 6, dpi = 300)
 
-message("\nDONE ✅ Baseline models saved to outputs/models and outputs/figures")
+message("\nDONE Baseline models saved to outputs/models and outputs/figures")
+
+

@@ -155,7 +155,6 @@ fetch_openmeteo_hourly <- function(lat, lon, start_date, end_date,
 }
 
 # ---------- Download hourly weather for each city (year-chunked) ----------
-# IMPORTANT: do NOT add city inside hourly results (prevents unnest name collision)
 weather_hourly_all <- city_centres %>%
   mutate(hourly = purrr::pmap(
     list(city, latitude, longitude),
@@ -201,7 +200,7 @@ weather_daily_city <- weather_hourly_all %>%
 
     pressure_mean = mean(pressure_msl, na.rm = TRUE),
 
-    # completeness: how many hourly obs we got that day (should be ~24)
+    # completeness: how many hourly obs we got that day
     n_hours = sum(!is.na(temperature_2m) | !is.na(relative_humidity_2m) |
                     !is.na(precipitation) | !is.na(windspeed_10m) | !is.na(pressure_msl)),
     .groups = "drop"
@@ -222,7 +221,7 @@ missing_weather_pct <- pm25_weather_daily %>%
   summarise(missing_weather_pct = 100 * mean(is.na(temp_mean))) %>%
   pull(missing_weather_pct)
 
-message("\nDONE ✅ Saved to data/processed/:")
+message("\nDONE Saved to data/processed/:")
 message(" - pm25_city_daily.csv")
 message(" - weather_daily_city.csv")
 message(" - pm25_weather_daily.csv")

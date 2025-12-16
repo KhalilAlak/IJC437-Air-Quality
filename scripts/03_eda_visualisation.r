@@ -3,7 +3,7 @@
 # Purpose:
 #  - Load cleaned OpenAQ PM2.5 datasets from data/processed/
 #  - Produce EDA summaries (by city, by sensor, by time)
-#  - Create portfolio-ready figures and save to outputs/figures/
+#  - Create figures and save to outputs/figures/
 #  - Save EDA tables to outputs/tables/
 # Inputs:
 #  - data/processed/pm25_daily_clean.csv
@@ -102,7 +102,6 @@ ggsave(
 
 # ==========================================
 # 3) Distribution plot (DAILY) by city
-#    (Use log scale if distribution is heavy-tailed)
 # ==========================================
 p_density <- pm25_daily %>%
   filter(!is.na(value), value >= 0) %>%
@@ -124,7 +123,7 @@ ggsave(
   dpi = 300
 )
 
-# Optional: same distribution but with log10 x-axis (often cleaner for PM)
+# Same distribution but with log10 x-axis (for cleaner Chart)
 p_density_log <- pm25_daily %>%
   filter(!is.na(value), value > 0) %>%
   ggplot(aes(x = value, fill = city)) +
@@ -147,26 +146,28 @@ ggsave(
 )
 
 # ==========================================
-# 4) Boxplot by city (DAILY)
+# 4) Boxplot by city (DAILY) — clean view (zoom)
 # ==========================================
-p_box <- pm25_daily %>%
+library(scales)
+
+df_w <- pm25_daily %>%
   filter(!is.na(value), value >= 0) %>%
-  ggplot(aes(x = city, y = value)) +
-  geom_boxplot(outlier_alpha = 0.25, na.rm = TRUE) +
+  mutate(value_w = pmin(value, quantile(value, 0.99, na.rm = TRUE)))
+
+p_box_w <- ggplot(df_w, aes(city, value_w)) +
+  geom_boxplot(outlier.shape = NA) +
   labs(
-    title = "Daily PM2.5 by city (boxplot)",
+    title = "Daily PM2.5 by city (winsorized at 99th percentile)",
     x = "City",
     y = "PM2.5 (µg/m³)"
   ) +
   theme_minimal()
 
 ggsave(
-  filename = "outputs/figures/boxplot_daily_pm25_by_city.png",
-  plot = p_box,
-  width = 9,
-  height = 6,
-  dpi = 300
+  "outputs/figures/boxplot_daily_pm25_by_city_winsor.png",
+  p_box_w, width = 9, height = 6, dpi = 300
 )
+
 
 # ==========================================
 # 5) Seasonality: monthly pattern averaged across years
@@ -287,6 +288,6 @@ extreme_days <- pm25_daily %>%
 readr::write_csv(extreme_days, "outputs/tables/top10_extreme_days_by_city.csv")
 
 # ---------- Done ----------
-message("\nDONE ✅ EDA outputs saved to:")
+message("\nDONE EDA outputs saved to:")
 message(" - outputs/figures/")
 message(" - outputs/tables/")

@@ -51,7 +51,6 @@ fmt_int <- function(x) {
   ifelse(is.na(x), NA_character_, formatC(x, format = "d"))
 }
 fmt_p <- function(p) {
-  # APA-ish: p < .001 otherwise 3 decimals without leading zero
   out <- case_when(
     is.na(p) ~ NA_character_,
     p < 0.001 ~ "< .001",
@@ -348,7 +347,7 @@ if (!is.null(extreme_days)) {
 }
 
 # ==========================================
-# Optional: quick "table index" for your report
+# Optional: quick "table index" for report
 # ==========================================
 table_index <- tibble(
   table_file = list.files("outputs/report_tables", pattern = "\\.csv$", full.names = FALSE)
@@ -357,5 +356,5 @@ table_index <- tibble(
 
 write_csv(table_index, "outputs/report_tables/Table_Index.csv")
 
-message("\nDONE ✅ Report-ready tables saved to: outputs/report_tables/")
+message("\nDONE Report-ready tables saved to: outputs/report_tables/")
 message("Created: ", nrow(table_index), " files (including Table_Index.csv)")

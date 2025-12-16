@@ -42,7 +42,7 @@ stopifnot("pm25_mean" %in% names(df))
 message("Rows loaded: ", nrow(df))
 message("Date range: ", paste(range(df$date, na.rm = TRUE), collapse = " -> "))
 
-# ---------- IMPORTANT: create a complete daily grid to avoid straight-line jumps across missing dates ----------
+# ---------- IMPORTANT: creating a complete daily grid to avoid straight-line jumps across missing dates ----------
 df_full <- df %>%
   group_by(city) %>%
   tidyr::complete(date = seq(min(date, na.rm = TRUE), max(date, na.rm = TRUE), by = "day")) %>%
@@ -92,7 +92,6 @@ m_base <- lm(
 
 # Baseline + Weather
 # (these column names come from 04b: temp_mean, rh_mean, wind_mean, precip_sum, pressure_mean)
-# If some are missing in your file, remove them from the formula.
 m_weather <- lm(
   pm25_mean ~ city + year + sin_doy + cos_doy + factor(dow) +
     pm25_lag1 + pm25_roll7 +
@@ -152,7 +151,7 @@ test_pred <- test %>%
 
 readr::write_csv(test_pred, "outputs/models/weather_predictions_test.csv")
 
-# Aggregate to city-day (already city-day, but keep consistent and safe)
+# Aggregate to city-day
 plot_df <- test_pred %>%
   group_by(city, date) %>%
   summarise(
@@ -186,7 +185,7 @@ plot_long <- plot_df %>%
 
 # ---------- Plot: RAW (no smoothing) ----------
 p_raw <- ggplot(plot_long, aes(x = date, y = value, color = series, linetype = series)) +
-  geom_line(linewidth = 0.8, na.rm = TRUE) +
+  geom_line(linewidth = 0.7, na.rm = TRUE) +
   facet_wrap(~ city, scales = "free_y") +
   labs(
     title = "Test set: PM2.5 prediction with and without weather variables (raw)",
@@ -253,5 +252,5 @@ p_res_hist <- test_pred %>%
 
 ggsave("outputs/figures/weather_residuals_hist.png", p_res_hist, width = 10, height = 6, dpi = 300)
 
-message("\nDONE ✅ Weather modelling + clean plots saved in outputs/models and outputs/figures")
+message("\nDONE Weather modelling + clean plots saved in outputs/models and outputs/figures")
 

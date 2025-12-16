@@ -75,11 +75,10 @@ pm25_daily <- pm25_daily %>%
 
 # ==========================================
 # 3) Basic validity rules for PM2.5
-#    (Portfolio-friendly: keep rules transparent and minimal)
 # ==========================================
 # Rule A: PM2.5 cannot be negative
 # Rule B (soft): extreme outliers -> keep as NA, not delete row
-#               (cap chosen conservatively; you can justify in report)
+
 pm25_upper_cap <- 1000
 
 pm25_daily <- pm25_daily %>%
@@ -98,7 +97,7 @@ message("Negative values flagged: ", sum(pm25_daily$flag_negative, na.rm = TRUE)
 message("Extreme values flagged (> ", pm25_upper_cap, "): ", sum(pm25_daily$flag_extreme, na.rm = TRUE))
 
 # ==========================================
-# 4) Coverage quality metric (optional but useful)
+# 4) Coverage quality metric (optional)
 # ==========================================
 pm25_daily <- pm25_daily %>%
   mutate(
@@ -165,7 +164,7 @@ pm25_daily_clean <- pm25_daily %>%
   arrange(city, sensors_id, date)
 
 # ==========================================
-# 7) City-level MONTHLY dataset (nice for visualisations + modelling)
+# 7) City-level MONTHLY dataset
 # ==========================================
 pm25_monthly_city <- pm25_daily_clean %>%
   mutate(month = floor_date(date, "month")) %>%
@@ -181,7 +180,7 @@ pm25_monthly_city <- pm25_daily_clean %>%
   arrange(city, month)
 
 # ==========================================
-# 8) Simple sensor summary (for report / portfolio)
+# 8) Simple sensor summary
 # ==========================================
 pm25_sensor_summary <- pm25_daily_clean %>%
   group_by(city, sensors_id, sensor_name, locations_id, location_name) %>%
@@ -206,14 +205,14 @@ readr::write_csv(pm25_sensor_summary, "data/processed/pm25_sensor_summary.csv")
 readr::write_csv(pm25_missingness, "data/processed/pm25_missingness_daily.csv")
 readr::write_csv(pm25_monthly_city, "data/processed/pm25_monthly_city.csv")
 
-message("\nDONE ✅ Saved to data/processed/:")
+message("\nDONE Saved to data/processed/:")
 message(" - pm25_daily_clean.csv")
 message(" - pm25_sensor_summary.csv")
 message(" - pm25_missingness_daily.csv")
 message(" - pm25_monthly_city.csv")
 
 # ==========================================
-# 10) Console checkpoints (paste these to me)
+# 10) Console checkpoints
 # ==========================================
 message("\nCHECKPOINTS:")
 message("Daily clean rows: ", nrow(pm25_daily_clean))

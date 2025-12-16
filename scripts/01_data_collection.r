@@ -22,7 +22,7 @@ dir.create("data/raw", recursive = TRUE, showWarnings = FALSE)
 dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 
 # ---------- API Key ----------
-api_key <- Sys.getenv("OPENAQ_API_KEY")
+api_key <- Sys.getenv("OPENAQ_API_KEY") # Use your own api that you got from openaq.org
 if (api_key == "") {
   stop("OPENAQ_API_KEY is not set. Add it to ~/.Renviron, restart R, then re-run.")
 }
@@ -41,8 +41,8 @@ pm25_param_id <- 2
 radius_m <- 25000
 limit_per_page <- 1000
 
-# Keep small to avoid 429 (increase later if needed)
-max_locations_per_city <- 15
+# Keeping it small to avoid 429 errors
+max_locations_per_city <- 20
 
 # Throttle / retry
 sleep_between_calls_sec <- 0.7
@@ -169,7 +169,7 @@ parse_location_detail <- function(json_txt) {
 
   r <- obj$results[[1]]
 
-  # Build a tibble with a sensors list-column
+  # Building a tibble with a sensors list-column
   tibble(
     id = r$id,
     name = r$name,
@@ -205,7 +205,7 @@ message("Columns in loc_details:")
 print(names(loc_details))
 
 # ==========================================
-# 3) Extract PM2.5 sensors from sensors list-column
+# 3) Extracting PM2.5 sensors from sensors list-column
 # ==========================================
 message("\n3) Extracting PM2.5 sensors from location details...")
 
@@ -220,14 +220,14 @@ pm25_sensors <- loc_details %>%
   clean_names()
 
 # sensors now contains "parameter" object — we need parameter.id
-# Unnest parameter
+# Unnesting parameter
 if ("parameter" %in% names(pm25_sensors)) {
   pm25_sensors <- pm25_sensors %>%
     unnest_wider(parameter, names_sep = "_") %>%
     clean_names()
 }
 
-# Look for parameter_id column
+# Looking for parameter_id column
 param_col <- dplyr::case_when(
   "parameter_id" %in% names(pm25_sensors) ~ "parameter_id",
   "parameter_id_id" %in% names(pm25_sensors) ~ "parameter_id_id",
@@ -266,3 +266,4 @@ message(" - pm25_sensors_raw.csv")
 pm25_sensors_out %>% count(city, sort=TRUE)
 
 head(pm25_sensors_out)
+

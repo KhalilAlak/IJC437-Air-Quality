@@ -25,7 +25,7 @@ library(lubridate)
 library(janitor)
 
 # modelling packages
-install.packages("tidymodels")  # if not already installed
+install.packages("tidymodels")
 library(tidymodels)   # parsnip, recipes, workflows, rsample, yardstick
 library(slider)       # rolling means
 
@@ -116,7 +116,7 @@ message("Train rows: ", nrow(train_df))
 message("Test rows: ", nrow(test_df))
 
 # ==========================================
-# 4) Baseline model (portfolio-friendly)
+# 4) Baseline model
 #    Predict using historical mean by (city, month, dow)
 # ==========================================
 baseline_tbl <- train_df %>%
@@ -196,7 +196,6 @@ print(metrics_test)
 
 # ==========================================
 # 7) Time-series CV (rolling origin) for extra credibility
-#    (kept small so it runs fast)
 # ==========================================
 # rolling origin: initial 4 years, assess 90 days, skip 90 days
 splits <- rsample::rolling_origin(
@@ -272,7 +271,7 @@ best_pred <- test_predictions %>% filter(model == best_model)
 # ==========================================
 p_pred <- ggplot(best_pred, aes(x = date)) +
   geom_line(aes(y = pm25), linewidth = 0.7, na.rm = TRUE) +
-  geom_line(aes(y = .pred), linewidth = 0.7, linetype = "dashed", na.rm = TRUE) +
+  geom_line(aes(y = .pred), linewidth = 0.4, linetype = "dashed", col = "red", na.rm = TRUE) +
   facet_wrap(~ city, scales = "free_y", ncol = 2) +
   labs(
     title = paste0("Actual vs Predicted daily PM2.5 (2025) — ", best_model),
@@ -297,7 +296,7 @@ p_resid <- ggplot(best_pred_resid, aes(x = date, y = residual)) +
 
 ggsave("outputs/figures/residuals_2025.png", p_resid, width = 12, height = 7, dpi = 300)
 
-message("\nDONE ✅ Saved modelling outputs to outputs/tables and outputs/figures.")
+message("\nDONE Saved modelling outputs to outputs/tables and outputs/figures.")
 message(" - outputs/tables/model_metrics_test.csv")
 message(" - outputs/tables/model_metrics_cv.csv")
 message(" - outputs/tables/test_predictions.csv")
