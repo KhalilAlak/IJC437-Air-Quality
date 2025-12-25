@@ -1,6 +1,6 @@
 ⸻
 
-📊 Introduction to Data Science – Air Quality Analysis (IJC437)
+Introduction to Data Science – Air Quality Analysis (IJC437)
 
 Overview
 
@@ -62,28 +62,24 @@ The project follows a standard end-to-end data science pipeline:
 
 ⸻
 
-Repository Structure
+## Repository Structure
 
-data/
-├── raw/                 # Original datasets downloaded from APIs
-├── processed/           # Cleaned and merged datasets
-
-scripts/
-├── 01_data_collection.R
-├── 02_data_cleaning.R
-├── 03_exploratory_analysis.R
-├── 04a_modelling_baseline.R
-├── 04b_merge_weather.R
-├── 04c_modelling_with_weather.R
-├── 06_statistical_analysis.R
-
-outputs/
-├── figures/             # All plots used in the report
-├── models/              # Model outputs and evaluation metrics
-
-README.md
-
-
+IJC437-Air-Quality/
+├─ data/
+│  ├─ raw/                 # Original API downloads
+│  └─ processed/           # Cleaned + merged datasets (city-day level)
+├─ scripts/
+│  ├─ 01_data_collection.R
+│  ├─ 02_data_cleaning.R
+│  ├─ 03_exploratory_analysis.R
+│  ├─ 04a_modelling_baseline.R
+│  ├─ 04b_merge_weather.R
+│  ├─ 04c_modelling_with_weather.R
+│  └─ 06_statistical_analysis.R
+├─ outputs/
+│  ├─ figures/             # Plots used in the report
+│  └─ models/              # Model results + evaluation metrics
+└─ README.md
 ⸻
 
 Key Findings (Summary)
