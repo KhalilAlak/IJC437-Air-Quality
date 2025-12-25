@@ -22,9 +22,10 @@ dir.create("data/raw", recursive = TRUE, showWarnings = FALSE)
 dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 
 # ---------- API Key ----------
-api_key <- Sys.getenv("OPENAQ_API_KEY") # Use your own api that you got from openaq.org
+api_key <- "***" #Write your own api that you get from openaq.org
+
 if (api_key == "") {
-  stop("OPENAQ_API_KEY is not set. Add it to ~/.Renviron, restart R, then re-run.")
+  stop("OPENAQ_API_KEY is not set.")
 }
 set_api_key(api_key) # for openaq package calls (still used for list_locations)
 
