@@ -1,73 +1,59 @@
 ⸻
 
-Introduction to Data Science – Air Quality Analysis (IJC437)
 
-Overview
+# 🌫️ Forecasting Urban Air Pollution Using Meteorological Data
 
-This repository contains an end-to-end data science project developed for the Introduction to Data Science (IJC437) module at the University of Sheffield.
-The project investigates PM2.5 air pollution across major UK cities using open air-quality and meteorological data, following a reproducible and transparent data science workflow.
+**An End-to-End Data Science Analysis of PM2.5 in UK Cities**
 
-The analysis demonstrates how data science techniques can be applied to a real-world environmental problem, covering data collection, cleaning, exploratory analysis, modelling, and interpretation.
+**Module:** IJC437 – Introduction to Data Science  
+**Degree Programme:** MSc Data Science  
+**Academic Year:** 2025–2026  
+**Author:** Khalil Alakbarzade  
 
-⸻
+---
 
-Project Objectives
+## 📌 Project Overview
 
-The main objectives of this project are to:
-	•	Analyse temporal and spatial patterns of PM2.5 concentrations in UK cities
-	•	Investigate the influence of meteorological variables (e.g. wind speed, temperature) on air pollution
-	•	Develop baseline and weather-enhanced predictive models
-	•	Apply best practices in reproducible data science using R and GitHub
+This project presents a complete **end-to-end data science workflow** investigating
+**PM2.5 air pollution** in major UK cities and its relationship with **meteorological factors**.
 
-⸻
+The analysis integrates **air quality sensor data** with **weather observations** to:
+- Explore spatial and temporal patterns in PM2.5
+- Examine seasonal and city-level differences
+- Quantify the effect of weather variables on pollution levels
+- Build and evaluate predictive regression models
 
-Dataset
+The project is designed to demonstrate **reproducible data science practices** aligned with
+the learning outcomes of IJC437.
 
-This project uses open and reproducible data sources:
-	•	Air Quality Data: OpenAQ API
-	•	Daily PM2.5 measurements from regulatory monitoring stations
-	•	Weather Data: Open-Meteo Historical Weather API
-	•	Temperature, wind speed, humidity, precipitation, and pressure
+---
 
-Cities analysed:
-	•	London
-	•	Manchester
-	•	Birmingham
-	•	Sheffield
+## 🎯 Aims and Objectives
 
-Time period:
-	•	2016–2025 (full available daily range after cleaning)
+- Collect and integrate air quality and weather data from public APIs  
+- Clean, validate, and aggregate data to a daily city-level format  
+- Perform exploratory data analysis (EDA) to identify trends and patterns  
+- Engineer temporal and meteorological features  
+- Develop baseline and weather-enhanced regression models  
+- Evaluate predictive performance using standard metrics  
 
-⸻
+---
 
-Methodology
+## 🧪 Data Sources
 
-The project follows a standard end-to-end data science pipeline:
-	1.	Data Collection
-	•	Automated retrieval of air quality and weather data via APIs
-	2.	Data Cleaning & Preprocessing
-	•	Removal of invalid values
-	•	Temporal alignment and aggregation to daily city-level averages
-	3.	Exploratory Data Analysis (EDA)
-	•	Time-series trends
-	•	Seasonal patterns
-	•	City-level comparisons
-	4.	Feature Engineering
-	•	Temporal features (seasonality, lagged values)
-	•	Meteorological variables
-	5.	Modelling & Evaluation
-	•	Baseline regression models
-	•	Weather-enhanced regression models
-	•	Performance evaluation using RMSE, MAE, and R²
+- **Air Quality:** PM2.5 measurements from public monitoring stations  
+- **Weather:** Meteorological variables including temperature, wind speed, and humidity  
 
-⸻
+All data are accessed programmatically and processed within the workflow.
 
-## Repository Structure
+---
+
+## 🗂️ Repository Structure
 
 IJC437-Air-Quality/
 ├─ data/
-│  ├─ raw/                 # Original API downloads
-│  └─ processed/           # Cleaned + merged datasets (city-day level)
+│  ├─ raw/                 # Original datasets downloaded from APIs
+│  └─ processed/           # Cleaned and merged datasets
 ├─ scripts/
 │  ├─ 01_data_collection.R
 │  ├─ 02_data_cleaning.R
@@ -77,43 +63,80 @@ IJC437-Air-Quality/
 │  ├─ 04c_modelling_with_weather.R
 │  └─ 06_statistical_analysis.R
 ├─ outputs/
-│  ├─ figures/             # Plots used in the report
-│  └─ models/              # Model results + evaluation metrics
+│  ├─ figures/             # Visualisations used in the report
+│  └─ models/              # Model outputs and evaluation metrics
 └─ README.md
+
+---
+
+## 🔍 Methodology
+
+The analysis follows a standard data science pipeline:
+
+1. **Data Collection**  
+   Automated retrieval of air quality and weather data via APIs  
+
+2. **Data Cleaning & Preprocessing**  
+   - Removal of invalid and missing values  
+   - Temporal alignment and aggregation to daily averages  
+
+3. **Exploratory Data Analysis (EDA)**  
+   - Time-series trends  
+   - Seasonal patterns  
+   - City-level comparisons  
+
+4. **Feature Engineering**  
+   - Temporal features (month, season, lagged values)  
+   - Meteorological predictors  
+
+5. **Modelling & Evaluation**  
+   - Baseline regression models  
+   - Weather-enhanced regression models  
+   - Performance assessment using RMSE, MAE, and R²  
+
+---
+
+## 📊 Key Findings (Summary)
+
+- PM2.5 concentrations exhibit strong **seasonal variation**, with higher levels in winter  
+- Urban centres differ substantially in pollution levels  
+- **Wind speed** is strongly associated with lower PM2.5 concentrations due to dispersion effects  
+- Incorporating meteorological variables **significantly improves predictive performance**  
+
+---
+
+## 🛠️ Tools & Technologies
+
+- **Programming Language:** R  
+- **Key Libraries:** tidyverse, ggplot2, lubridate, janitor  
+- **Version Control:** Git & GitHub  
+- **Workflow:** Script-based, reproducible analysis with clear inputs and outputs  
+
+---
+
+## ▶️ How to Run the Project
+
+1. Clone the repository  
+2. Install required R packages  
+3. Run scripts in numerical order:
+
+```r
+01_data_collection.R → 06_statistical_analysis.R
+
+	4.	Outputs (figures and model results) will be saved automatically in the outputs/ folder
+
 ⸻
 
-Key Findings (Summary)
-	•	PM2.5 concentrations show strong seasonal patterns, with higher values during winter
-	•	Urban centres differ in pollution levels, reflecting variations in activity and environment
-	•	Wind speed is strongly associated with lower PM2.5 concentrations due to dispersion effects
-	•	Incorporating meteorological variables significantly improves predictive performance
+🎓 Academic Context
+
+This project was completed as part of the IJC437 – Introduction to Data Science
+module at the University of Sheffield and is submitted for academic assessment.
 
 ⸻
 
-Tools & Technologies
-	•	Programming language: R
-	•	Key libraries: tidyverse, ggplot2, lubridate, janitor
-	•	Version control: Git & GitHub
-	•	Reproducibility: Script-based workflow with clear inputs and outputs
+📎 Notes
+	•	The repository focuses on clarity, reproducibility, and methodological transparency
+	•	Results are intended for educational purposes and should not be interpreted as
+official air quality forecasts
 
-⸻
-
-How to Run the Project
-	1.	Clone the repository
-	2.	Ensure required R packages are installed
-	3.	Run scripts in numerical order (01_ → 06_)
-	4.	Outputs will be saved automatically in the outputs/ folder
-
-⸻
-
-Academic Context
-
-This project was completed as part of:
-
-IJC437 – Introduction to Data Science
-MSc Data Science
-University of Sheffield
-
-The repository is intended to demonstrate practical data science skills, reproducible research practices, and clear analytical communication.
-
-⸻
+---
