@@ -15,3 +15,9 @@ outputs/
 # Mac
 .DS_Store
 
+# ===============================
+# Coursework reports (IJC437)
+# ===============================
+IJC437_Air_Quality_PM25_Prediction_Khalil_Alakbarzade.docx
+IJC437_Air_Quality_PM25_Prediction_Khalil_Alakbarzade-*.pdf
+.~C437_Air_Quality_PM25_Prediction_Khalil_Alakbarzade.docx
